@@ -44,7 +44,9 @@ class MemoFormVC: UIViewController, UIImagePickerControllerDelegate, UINavigatio
     }
     
     // 카메라 버튼을 클릭했을 때 호출되는 메소드
-    // imagepicker method를 따로 만들어서 반복되는 부분을 없게 하자!! <- 틀린 부분
+    ////////////////////////////////////////
+    // 틀린 부분 -> imagepicker method를 아예 따로 만들어서 반복되는 부분을 없게 했어야지!! 
+    /////////////////////////////////////////
     @IBAction func pick(_ sender: Any) {
         
         let alert = UIAlertController(title: "이미지를 가져올 곳을 선택해주세요", message: nil, preferredStyle: .actionSheet)
