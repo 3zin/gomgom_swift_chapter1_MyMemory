@@ -58,6 +58,23 @@ class MemoListVC: UITableViewController {
         }
     }
     
+    
+    override func viewDidLoad() {
+        // SWRevealViewController 라이브러리의 revealViewController 객체를 읽어온다
+        
+        if let revealVC = self.revealViewController(){ //revealVC의 typed은 SWRevealViewController. 결국 모든 작업을 종합적으로 처리할 main Container Controller에 대한 참조 주소 정보를 얻어오는 것이다. 얻어오는 이유는, target(target은 호출하는 action 메소드가 소속되어있는 객체 정보이다. 본 경우는 라이브러리 함수)값이 자기 자신이 아니라 SWRevealViewController이고, 직접적인 연관은 없으나 라이브러리 함수 참조를 위해 주소값이 필요하기 때문이다.
+            
+            let btn = UIBarButtonItem()
+            btn.image = UIImage(named: "sidemenu.png")
+            btn.target = revealVC // 메소드가 속해 있는 인스턴스 객체 (?)
+            btn.action = #selector(revealVC.revealToggle(_:))
+            
+            self.navigationItem.leftBarButtonItem = btn
+            
+            self.view.addGestureRecognizer(revealVC.panGestureRecognizer()) // 이 제스처는 "TableViewController"인 MemoListVC에 추가하는 것이다. 이는 적당히 SWRevealViewController에 의해 view로 띄워져 반응하게 될 것이다.
+        }
+    }
+    
     // 디바이스 스크린에 뷰 컨트롤러가 나타날 때마다 호출되는 메소드
     // viewDidappear과는 시작시점의 차이가 존재한다. view controller appear 전후의 차이
     override func viewWillAppear(_ animated: Bool) {
