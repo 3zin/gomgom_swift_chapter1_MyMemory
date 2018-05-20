@@ -18,6 +18,22 @@
 		989510122053A7B900E776FD /* MemoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989510112053A7B900E776FD /* MemoCell.swift */; };
 		989510162053A98300E776FD /* MemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989510152053A98300E776FD /* MemoData.swift */; };
 		989510192053BAD500E776FD /* fountainpen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 989510182053BAD400E776FD /* fountainpen@2x.png */; };
+		98BE244220AFCBC5006A7122 /* CSLogButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BE244120AFCBC5006A7122 /* CSLogButton.swift */; };
+		98BE244420AFCDFA006A7122 /* button-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE244320AFCDFA006A7122 /* button-bg.png */; };
+		98BE244620AFCE5C006A7122 /* memo-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE244520AFCE5C006A7122 /* memo-background@2x.png */; };
+		98BE244820AFCE64006A7122 /* warning-icon-60@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE244720AFCE64006A7122 /* warning-icon-60@2x.png */; };
+		98BE24A720AFF40C006A7122 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 98BE24A620AFF40C006A7122 /* SWRevealViewController.m */; };
+		98BE24B120AFF43D006A7122 /* icon05.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24A820AFF43D006A7122 /* icon05.png */; };
+		98BE24B220AFF43D006A7122 /* icon04.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24A920AFF43D006A7122 /* icon04.png */; };
+		98BE24B320AFF43D006A7122 /* icon01.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24AA20AFF43D006A7122 /* icon01.png */; };
+		98BE24B420AFF43D006A7122 /* icon02.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24AB20AFF43D006A7122 /* icon02.png */; };
+		98BE24B520AFF43D006A7122 /* icon03.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24AC20AFF43D006A7122 /* icon03.png */; };
+		98BE24B620AFF43D006A7122 /* icon06.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24AD20AFF43D006A7122 /* icon06.png */; };
+		98BE24B720AFF43D006A7122 /* account@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24AE20AFF43D006A7122 /* account@2x.jpg */; };
+		98BE24B820AFF43D006A7122 /* sidemenu.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24AF20AFF43D006A7122 /* sidemenu.png */; };
+		98BE24B920AFF43D006A7122 /* profile-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24B020AFF43D006A7122 /* profile-bg.png */; };
+		98BE24BB20AFF98F006A7122 /* SideBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BE24BA20AFF98F006A7122 /* SideBarVC.swift */; };
+		98BE24BD20AFFF41006A7122 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BE24BC20AFFF41006A7122 /* ProfileVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +50,24 @@
 		989510112053A7B900E776FD /* MemoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoCell.swift; sourceTree = "<group>"; };
 		989510152053A98300E776FD /* MemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoData.swift; sourceTree = "<group>"; };
 		989510182053BAD400E776FD /* fountainpen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fountainpen@2x.png"; path = "../../../../../../../Downloads/fountainpen@2x.png"; sourceTree = "<group>"; };
+		98BE244120AFCBC5006A7122 /* CSLogButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSLogButton.swift; sourceTree = "<group>"; };
+		98BE244320AFCDFA006A7122 /* button-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button-bg.png"; sourceTree = "<group>"; };
+		98BE244520AFCE5C006A7122 /* memo-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "memo-background@2x.png"; sourceTree = "<group>"; };
+		98BE244720AFCE64006A7122 /* warning-icon-60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning-icon-60@2x.png"; sourceTree = "<group>"; };
+		98BE24A420AFF40B006A7122 /* MyMemory-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyMemory-Bridging-Header.h"; sourceTree = "<group>"; };
+		98BE24A520AFF40C006A7122 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		98BE24A620AFF40C006A7122 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		98BE24A820AFF43D006A7122 /* icon05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon05.png; sourceTree = "<group>"; };
+		98BE24A920AFF43D006A7122 /* icon04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon04.png; sourceTree = "<group>"; };
+		98BE24AA20AFF43D006A7122 /* icon01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon01.png; sourceTree = "<group>"; };
+		98BE24AB20AFF43D006A7122 /* icon02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon02.png; sourceTree = "<group>"; };
+		98BE24AC20AFF43D006A7122 /* icon03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon03.png; sourceTree = "<group>"; };
+		98BE24AD20AFF43D006A7122 /* icon06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon06.png; sourceTree = "<group>"; };
+		98BE24AE20AFF43D006A7122 /* account@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "account@2x.jpg"; sourceTree = "<group>"; };
+		98BE24AF20AFF43D006A7122 /* sidemenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sidemenu.png; sourceTree = "<group>"; };
+		98BE24B020AFF43D006A7122 /* profile-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile-bg.png"; sourceTree = "<group>"; };
+		98BE24BA20AFF98F006A7122 /* SideBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarVC.swift; sourceTree = "<group>"; };
+		98BE24BC20AFFF41006A7122 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,17 +101,23 @@
 		98950FF520539AFE00E776FD /* MyMemory */ = {
 			isa = PBXGroup;
 			children = (
+				98BE24A520AFF40C006A7122 /* SWRevealViewController.h */,
+				98BE24A620AFF40C006A7122 /* SWRevealViewController.m */,
 				98950FF620539AFE00E776FD /* AppDelegate.swift */,
 				98950FFA20539AFE00E776FD /* Main.storyboard */,
 				9895100020539AFE00E776FD /* Assets.xcassets */,
 				9895100220539AFE00E776FD /* LaunchScreen.storyboard */,
 				9895100520539AFE00E776FD /* Info.plist */,
+				98BE24BA20AFF98F006A7122 /* SideBarVC.swift */,
 				98950FFD20539AFE00E776FD /* MyMemory.xcdatamodeld */,
 				9895100B2053A73200E776FD /* MemoListVC.swift */,
 				9895100D2053A76E00E776FD /* MemoFormVC.swift */,
+				98BE24BC20AFFF41006A7122 /* ProfileVC.swift */,
+				98BE244120AFCBC5006A7122 /* CSLogButton.swift */,
 				9895100F2053A77E00E776FD /* MemoReadVC.swift */,
 				989510112053A7B900E776FD /* MemoCell.swift */,
 				989510152053A98300E776FD /* MemoData.swift */,
+				98BE24A420AFF40B006A7122 /* MyMemory-Bridging-Header.h */,
 			);
 			path = MyMemory;
 			sourceTree = "<group>";
@@ -86,6 +126,18 @@
 			isa = PBXGroup;
 			children = (
 				989510182053BAD400E776FD /* fountainpen@2x.png */,
+				98BE244320AFCDFA006A7122 /* button-bg.png */,
+				98BE244520AFCE5C006A7122 /* memo-background@2x.png */,
+				98BE244720AFCE64006A7122 /* warning-icon-60@2x.png */,
+				98BE24AE20AFF43D006A7122 /* account@2x.jpg */,
+				98BE24AA20AFF43D006A7122 /* icon01.png */,
+				98BE24AB20AFF43D006A7122 /* icon02.png */,
+				98BE24AC20AFF43D006A7122 /* icon03.png */,
+				98BE24A920AFF43D006A7122 /* icon04.png */,
+				98BE24A820AFF43D006A7122 /* icon05.png */,
+				98BE24AD20AFF43D006A7122 /* icon06.png */,
+				98BE24B020AFF43D006A7122 /* profile-bg.png */,
+				98BE24AF20AFF43D006A7122 /* sidemenu.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -122,6 +174,7 @@
 				TargetAttributes = {
 					98950FF220539AFE00E776FD = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -150,9 +203,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				9895100420539AFE00E776FD /* LaunchScreen.storyboard in Resources */,
+				98BE244420AFCDFA006A7122 /* button-bg.png in Resources */,
+				98BE24B620AFF43D006A7122 /* icon06.png in Resources */,
 				9895100120539AFE00E776FD /* Assets.xcassets in Resources */,
+				98BE24B120AFF43D006A7122 /* icon05.png in Resources */,
 				989510192053BAD500E776FD /* fountainpen@2x.png in Resources */,
+				98BE24B220AFF43D006A7122 /* icon04.png in Resources */,
+				98BE244620AFCE5C006A7122 /* memo-background@2x.png in Resources */,
+				98BE24B920AFF43D006A7122 /* profile-bg.png in Resources */,
+				98BE24B420AFF43D006A7122 /* icon02.png in Resources */,
 				98950FFC20539AFE00E776FD /* Main.storyboard in Resources */,
+				98BE24B520AFF43D006A7122 /* icon03.png in Resources */,
+				98BE244820AFCE64006A7122 /* warning-icon-60@2x.png in Resources */,
+				98BE24B820AFF43D006A7122 /* sidemenu.png in Resources */,
+				98BE24B720AFF43D006A7122 /* account@2x.jpg in Resources */,
+				98BE24B320AFF43D006A7122 /* icon01.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,12 +228,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98BE244220AFCBC5006A7122 /* CSLogButton.swift in Sources */,
 				9895100C2053A73200E776FD /* MemoListVC.swift in Sources */,
 				989510102053A77E00E776FD /* MemoReadVC.swift in Sources */,
 				98950FFF20539AFE00E776FD /* MyMemory.xcdatamodeld in Sources */,
 				989510162053A98300E776FD /* MemoData.swift in Sources */,
+				98BE24BB20AFF98F006A7122 /* SideBarVC.swift in Sources */,
+				98BE24A720AFF40C006A7122 /* SWRevealViewController.m in Sources */,
 				9895100E2053A76E00E776FD /* MemoFormVC.swift in Sources */,
 				98950FF720539AFE00E776FD /* AppDelegate.swift in Sources */,
+				98BE24BD20AFFF41006A7122 /* ProfileVC.swift in Sources */,
 				989510122053A7B900E776FD /* MemoCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,11 +375,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MyMemory/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AhnSeJin.MyMemory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyMemory/MyMemory-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -320,11 +392,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = MyMemory/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.AhnSeJin.MyMemory;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyMemory/MyMemory-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
