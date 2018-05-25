@@ -34,6 +34,7 @@
 		98BE24B920AFF43D006A7122 /* profile-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 98BE24B020AFF43D006A7122 /* profile-bg.png */; };
 		98BE24BB20AFF98F006A7122 /* SideBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BE24BA20AFF98F006A7122 /* SideBarVC.swift */; };
 		98BE24BD20AFFF41006A7122 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BE24BC20AFFF41006A7122 /* ProfileVC.swift */; };
+		98BE252320B7C470006A7122 /* UserInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BE252220B7C470006A7122 /* UserInfoManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		98BE24B020AFF43D006A7122 /* profile-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile-bg.png"; sourceTree = "<group>"; };
 		98BE24BA20AFF98F006A7122 /* SideBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarVC.swift; sourceTree = "<group>"; };
 		98BE24BC20AFFF41006A7122 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		98BE252220B7C470006A7122 /* UserInfoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				98BE24A620AFF40C006A7122 /* SWRevealViewController.m */,
 				98950FF620539AFE00E776FD /* AppDelegate.swift */,
 				98950FFA20539AFE00E776FD /* Main.storyboard */,
+				98BE252220B7C470006A7122 /* UserInfoManager.swift */,
 				9895100020539AFE00E776FD /* Assets.xcassets */,
 				9895100220539AFE00E776FD /* LaunchScreen.storyboard */,
 				9895100520539AFE00E776FD /* Info.plist */,
@@ -230,6 +233,7 @@
 			files = (
 				98BE244220AFCBC5006A7122 /* CSLogButton.swift in Sources */,
 				9895100C2053A73200E776FD /* MemoListVC.swift in Sources */,
+				98BE252320B7C470006A7122 /* UserInfoManager.swift in Sources */,
 				989510102053A77E00E776FD /* MemoReadVC.swift in Sources */,
 				98950FFF20539AFE00E776FD /* MyMemory.xcdatamodeld in Sources */,
 				989510162053A98300E776FD /* MemoData.swift in Sources */,
