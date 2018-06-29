@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import Alamofire
+import LocalAuthentication
 
 class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     let uinfo = UserInfoManager()
+    
+    var isCalling = false
     
     let profileImage = UIImageView()
     let tv = UITableView()
@@ -67,6 +71,10 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         let tap = UITapGestureRecognizer(target:self, action: #selector(profile))
         self.profileImage.addGestureRecognizer(tap)
         self.profileImage.isUserInteractionEnabled = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tokenValidate()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -145,6 +153,14 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     }
     
     @objc func doLogin(_ sender: Any) {
+        
+        if self.isCalling == true {
+            self.alert("응답을 기다리는 중입니다. \n잠시만 기다려 주세여.")
+            return
+        }else {
+            self.isCalling = true
+        }
+        
         let loginAlert = UIAlertController(title: "LOGIN", message: nil, preferredStyle: .alert)
         
         // 알림창에 들어갈 입력폼
@@ -157,24 +173,40 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         }
         
         // 알림창 버튼 추가
-        loginAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        loginAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel) {(al) in
+            self.isCalling = true
+        })
         loginAlert.addAction(UIAlertAction(title: "Login", style: .destructive){ (al) in
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+            
             let account = loginAlert.textFields?[0].text ?? "" // 첫 번째 필드 : 계정
             let passwd = loginAlert.textFields?[1].text ?? ""  // 두 번째 필드 : 비밀번호
             
-            if self.uinfo.login(account: account, passwd: passwd){
-                // 로그인 성공
-                self.tv.reloadData() // 테이블 뷰를 갱신한다
-                self.profileImage.image = self.uinfo.profile // 이미지 프로필을 갱신한다
+            self.uinfo.login(account: account, passwd: passwd, success: {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.isCalling = false
                 
-                self.drawBtn() // 로그인 상태에 따라 적절히 로그인/로그아웃 버튼을 출력한다.
+                self.tv.reloadData()
+                self.profileImage.image = self.uinfo.profile
+                self.drawBtn()
                 
-            }else{
-                let msg = "로그인에 실패하였습니다"
-                let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel))
-                self.present(alert, animated: false)
-            }
+                let sync = DataSync()
+                DispatchQueue.global(qos: .background).async {
+                    sync.downloadBackupData()
+                }
+                
+                DispatchQueue.global(qos: .background).async {
+                    sync.uploadData()
+                }
+                
+                
+            }, fail: { msg in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.isCalling = false
+                
+                self.alert(msg)
+            })
         })
         self.present(loginAlert, animated: false)
     }
@@ -184,12 +216,13 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         let alert = UIAlertController(title: nil, message: msg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         alert.addAction(UIAlertAction(title: "확인", style: .destructive){ (al) in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             
-            if self.uinfo.logout(){
+            self.uinfo.logout(){
                 // 로그아웃 성공
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 self.tv.reloadData() // 테이블 뷰를 갱신한다
                 self.profileImage.image = self.uinfo.profile // 이미지 프로필을 갱신한다
-                
                 self.drawBtn() // 로그인 상태에 따라 적절히 로그인/로그아웃 버튼을 출력한다.
             }
         })
@@ -232,12 +265,162 @@ class ProfileVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     
     // 이미지를 선택하면 이 메소드가 자동으로 호출된다
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
         if let img = info[UIImagePickerControllerEditedImage] as? UIImage {
-            self.uinfo.profile = img // 연산 프로퍼티 호출 (값 저장)
-            self.profileImage.image = img
+            self.uinfo.newProfile(img, success: {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.profileImage.image = img
+                
+            }, fail: { msg in
+
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                self.alert(msg)
+            })
         }
         
         picker.dismiss(animated: true)
+    }
+    
+    @IBAction func backProfileVC(_ segue: UIStoryboardSegue){
+        
+    }
+}
+
+extension ProfileVC {
+    
+    func tokenValidate(){
+        
+        URLCache.shared.removeAllCachedResponses()
+        
+        let tk = TokenUtils()
+        guard let header = tk.getAuthorizationHeader() else {
+            return
+        }
+        
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/tokenValidate"
+        let validate = Alamofire.request(url, method: .post, encoding: JSONEncoding.default, headers: header)
+        
+        validate.responseJSON { res in
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            
+            print(res.result.value!)
+            guard let jsonObject = res.result.value as? NSDictionary else {
+                self.alert("잘못된 응답입니다.")
+                return
+            }
+            
+            let resultCode = jsonObject["result_code"] as! Int
+            if resultCode != 0 {
+                self.touchID()
+            }
+        }
+    }
+    
+    func touchID(){
+        
+        let context = LAContext()
+        var error: NSError?
+        let msg = "인증이 필요합니다"
+        let deviceAuth = LAPolicy.deviceOwnerAuthenticationWithBiometrics
+        
+        if context.canEvaluatePolicy(deviceAuth, error: &error){
+            
+            context.evaluatePolicy(deviceAuth, localizedReason: msg) { (success, e) in
+                
+                if success {
+                    self.refresh()
+                } else {
+                    
+                    print(e?.localizedDescription)
+                    
+                    switch(e!._code) {
+                    case LAError.systemCancel.rawValue:
+                        self.alert("시스템에 의해 인증이 취소되었습니다.")
+                    case LAError.userCancel.rawValue:
+                        self.alert("사용자에 의해 인증이 취소되었습니다."){
+                            self.commonLogout(true)
+                        }
+                    case LAError.userFallback.rawValue:
+                        OperationQueue.main.addOperation {
+                            self.commonLogout(true)
+                        }
+                    default:
+                        OperationQueue.main.addOperation {
+                            self.commonLogout(true)
+                        }
+                        
+                    }
+                }
+            }
+        } else {
+            print(error!.localizedDescription)
+            switch(error!.code) {
+            case LAError.touchIDNotEnrolled.rawValue:
+                print("터치 아이디가 등록되어 있지 않습니다.")
+            case LAError.passcodeNotSet.rawValue:
+                print("패스 코드가 설정되어 있지 않습니다.")
+            default:
+                print("터치 아이디를 사용할 수 없습니다.")
+            }
+            
+            OperationQueue.main.addOperation {
+                self.commonLogout(true)
+            }
+        }
+    }
+    
+    
+    func refresh(){
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let tk = TokenUtils()
+        let header = tk.getAuthorizationHeader()
+        
+        let refreshToken = tk.load("kr.co.rubypaper.MyMrmory", account: "refreshToken")
+        let param: Parameters = ["refresh_token" : refreshToken!]
+        
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount.refresh"
+        let refresh = Alamofire.request(url, method: .post, parameters: param, encoding: JSONEncoding.default, headers: header)
+        
+        refresh.responseJSON{ res in
+        
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            guard let jsonObject = res.result.value as? NSDictionary else {
+                self.alert("잘못된 응답입니다.")
+                return
+            }
+            
+            let resultCode = jsonObject["result_code"] as! Int
+            if resultCode == 0 {
+                let accessToken = jsonObject["access_token"] as! String
+                tk.save("kr.co.rubypaper.MyMemory", account: "accessToken", value: accessToken)
+                
+            } else {
+                self.alert("인증이 만료되었으므로 다시 로그인해야 합니다"){
+                    OperationQueue.main.addOperation {
+                        self.commonLogout(true)
+                    }
+                }
+            }
+        }
+    }
+    
+    func commonLogout(_ isLogin: Bool = false) {
+        
+        let userInfo = UserInfoManager()
+        userInfo.localLogout()
+        
+        self.tv.reloadData()
+        self.profileImage.image = userInfo.profile
+        self.drawBtn()
+        
+        if isLogin{
+            self.doLogin(self)
+        }
     }
 }
 

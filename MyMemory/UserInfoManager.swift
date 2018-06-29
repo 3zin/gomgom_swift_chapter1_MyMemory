@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 struct UserInfoKey {
     
@@ -15,6 +16,7 @@ struct UserInfoKey {
     static let account = "ACCOUNT"
     static let name = "NAME"
     static let profile = "PROFILE"
+    static let tutorial = "TUTORIAL"
     
 }
 
@@ -89,18 +91,86 @@ class UserInfoManager{
     }
     
     
-    func login(account: String, passwd: String) -> Bool {
-        // 후에 서버와 연동할 예정
-        if account.elementsEqual("sqlpro@naver.com") && passwd.elementsEqual("1234"){
-            let ud = UserDefaults.standard
-            ud.set(100, forKey: UserInfoKey.loginId)
-            ud.set(account, forKey: UserInfoKey.account)
-            ud.set("재은 씨", forKey: UserInfoKey.name)
-            ud.synchronize()
-            return true
-        } else {
-            return false
+    func login(account: String, passwd: String, success:(()->Void)? = nil, fail:((String)->Void)? = nil) {
+        
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/login"
+        let param: Parameters = [
+        "account": account,
+        "passwd" : passwd
+        ]
+        
+        let call = Alamofire.request(url, method: .post, parameters: param, encoding: JSONEncoding.default)
+        
+        call.responseJSON { res in
+        
+            guard let jsonObject = res.result.value as? NSDictionary else {
+                fail?("잘못된 응답 형식입니다:\(res.result.value!)")
+                return
+            }
+            
+            let resultCode = jsonObject["result_code"] as! Int
+            if resultCode == 0 {
+                
+                let user = jsonObject["user_info"] as! NSDictionary
+                
+                self.loginId = user["user_id"] as! Int
+                self.account = user["account"] as? String
+                self.name = user["name"] as? String
+                
+                if let path = user["profile_path"] as? String {
+                    if let imageData = try? Data(contentsOf: URL(string: path)!) {
+                        self.profile = UIImage(data: imageData)
+                    }
+                }
+                
+                // 토큰 정보 추출
+                let accessToken = jsonObject["access_token"] as! String
+                let refreshToken = jsonObject["refresh_token"] as! String
+                
+                let tk = TokenUtils()
+                tk.save("kr.co.rubypaper.MyMemory", account: "accessToken", value: accessToken)
+                tk.save("kr.co.rubypaper.MyMemory", account: "refreshToken", value: refreshToken)
+                success?()
+                
+            }else{
+                let msg = (jsonObject["error_msg"] as? String) ?? "로그인이 실패했습니다."
+                fail?(msg)
+            }
+        
         }
+        
+    }
+    
+    func logout(completion:(()->Void)? = nil) {
+        
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/logout"
+        
+        let tokenUtils = TokenUtils()
+        let header = tokenUtils.getAuthorizationHeader()
+        
+        let call = Alamofire.request(url, method: .post, encoding: JSONEncoding.default, headers: header)
+        
+        call.responseJSON { _ in
+            self.localLogout()
+            completion?()
+        }
+    }
+    
+    func localLogout(){
+        
+        // 기본 저장소에 저장된 값을 모두 삭제
+        let ud = UserDefaults.standard
+        ud.removeObject(forKey: UserInfoKey.loginId)
+        ud.removeObject(forKey: UserInfoKey.account)
+        ud.removeObject(forKey: UserInfoKey.name)
+        ud.removeObject(forKey: UserInfoKey.profile)
+        ud.synchronize()
+        
+        // 키 체인에 저장된 값을 모두 삭제
+        let tokenUtils = TokenUtils()
+        tokenUtils.delete("kr.co.rubypaper.MyMemory", account: "refreshToken")
+        tokenUtils.delete("kr.co.rubypaper.MyMemory", account: "accessToken")
+        
     }
     
     func logout() -> Bool{
@@ -113,6 +183,37 @@ class UserInfoManager{
         return true
     }
     
+    func newProfile(_ profile: UIImage?, success:(()->Void)? = nil, fail:((String)->Void)? = nil) {
+        
+        let url = "http://swiftapi.rubypaper.co.kr:2029/userAccount/profile"
+        
+        let tk = TokenUtils()
+        let header = tk.getAuthorizationHeader()
+        
+        let profileData = UIImagePNGRepresentation(profile!)?.base64EncodedString()
+        let param: Parameters = ["profile_image" : profileData!]
+
+        
+        let call = Alamofire.request(url, method: .post, parameters: param, encoding: JSONEncoding.default, headers:header)
+        
+        call.responseJSON { res in
+            
+            guard let jsonObject = res.result.value as? NSDictionary else {
+                fail?("잘못된 응답 형식입니다:\(res.result.value!)")
+                return
+            }
+            
+            let resultCode = jsonObject["result_code"] as! Int
+            if resultCode == 0 {
+                self.profile = profile
+                success?()
+                
+            }else{
+                let msg = (jsonObject["error_msg"] as? String) ?? "이미지 프로필 변경이 실패했습니다."
+                fail?(msg)
+            }
+        }
+    }
 }
 
 

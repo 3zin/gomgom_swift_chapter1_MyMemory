@@ -8,10 +8,14 @@
 
 import UIKit
 
-class MemoListVC: UITableViewController {
+class MemoListVC: UITableViewController , UISearchBarDelegate{
 
     
+    @IBOutlet var searchBar: UISearchBar!
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    lazy var dao = MemoDAO()
     
     // 테이블 뷰의 셀 개수를 결정하는 메소드
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,6 +64,9 @@ class MemoListVC: UITableViewController {
     
     
     override func viewDidLoad() {
+        
+        searchBar.enablesReturnKeyAutomatically = false
+        
         // SWRevealViewController 라이브러리의 revealViewController 객체를 읽어온다
         
         if let revealVC = self.revealViewController(){ //revealVC의 typed은 SWRevealViewController. 결국 모든 작업을 종합적으로 처리할 main Container Controller에 대한 참조 주소 정보를 얻어오는 것이다. 얻어오는 이유는, target(target은 호출하는 action 메소드가 소속되어있는 객체 정보이다. 본 경우는 라이브러리 함수)값이 자기 자신이 아니라 SWRevealViewController이고, 직접적인 연관은 없으나 라이브러리 함수 참조를 위해 주소값이 필요하기 때문이다.
@@ -72,6 +79,9 @@ class MemoListVC: UITableViewController {
             self.navigationItem.leftBarButtonItem = btn
             
             self.view.addGestureRecognizer(revealVC.panGestureRecognizer()) // 이 제스처는 "TableViewController"인 MemoListVC에 추가하는 것이다. 이는 적당히 SWRevealViewController에 의해 view로 띄워져 반응하게 될 것이다.
+            
+            searchBar.delegate = self
+           // self.tableView.delegate = self tableviewController를 상속했을 경우, 델리게이트와 데이터 소스는 자동으로 설정되어 있다
         }
     }
     
@@ -79,7 +89,30 @@ class MemoListVC: UITableViewController {
     // viewDidappear과는 시작시점의 차이가 존재한다. view controller appear 전후의 차이
     override func viewWillAppear(_ animated: Bool) {
         // 테이블 데이터를 다시 읽어들인다. 이에 따라 행을 구성하는 로직이 다시 실행될 것이다.
+        self.appDelegate.memolist = self.dao.fetch()
+        
         self.tableView.reloadData()
+        
+        let ud = UserDefaults.standard
+        if ud.bool(forKey: UserInfoKey.tutorial) == false {
+            let vc = self.instanceTutorialVC(name: "MasterVC")
+            self.present(vc, animated: false)
+            return
+        }
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .delete
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let data = self.appDelegate.memolist[indexPath.row]
+        
+        if dao.delete(data.objectID!){
+            self.appDelegate.memolist.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
     
     /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -112,6 +145,14 @@ class MemoListVC: UITableViewController {
         // memolist 는 옵셔널이 아니므로 바인딩 불필요. segue에 맞춰서 prepare가 이루어진 후 자동으로 이동하게 됨.
         performSegue(withIdentifier: "read_sg", sender: self.appDelegate.memolist[indexPath.row])
 
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let keyword = searchBar.text
+        
+        self.appDelegate.memolist = self.dao.fetch(keyword: keyword)
+        self.tableView.reloadData()
+        
     }
     
     

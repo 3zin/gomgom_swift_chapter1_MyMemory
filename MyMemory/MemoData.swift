@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MemoData{
     var memoIdx:Int? // 데이터 식별값
@@ -14,4 +15,5 @@ class MemoData{
     var contents:String? // 메모 내용
     var image:UIImage? // 이미지
     var regdate:Date? // 작성일
+    var objectID: NSManagedObjectID? // 원본 MemoMO 객체를 참고하기 위한 속성
 }
